@@ -42,8 +42,8 @@ public class BlogController {
                     preparedStatement.setString(1, blog.getTitle());
                     preparedStatement.setString(2, blog.getUsername());
                     preparedStatement.setString(3, blog.getContents());
-                    preparedStatement.setDate(4, java.sql.Date.valueOf(blog.getDate()));
-                    preparedStatement.setLong(5, blog.getPassword());
+//                    preparedStatement.setDate(4, java.sql.Date.valueOf(blog.getDate()));
+                    preparedStatement.setLong(4, blog.getPassword());
                     return preparedStatement;
                 },
                 keyHolder);
@@ -79,49 +79,52 @@ public class BlogController {
         });
     }
 
-//    @PutMapping("/blogs/{id}")
-//    public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
-//        // 해당 메모가 DB에 존재하는지 확인
-//        Blog blog = findById(id);
-//        if(blog != null) {
-//            // blog 내용 수정
-//            String sql = "UPDATE blog SET username = ?, contents = ? WHERE id = ?";
-//            jdbcTemplate.update(sql, requestDto.getUsername(), requestDto.getContents(), id);
-//
-//            return id;
-//        } else {
-//            throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
-//        }
-//    }
-//
-//    @DeleteMapping("/blogs/{id}")
-//    public Long deleteBlog(@PathVariable Long id) {
-//        // 해당 메모가 DB에 존재하는지 확인
-//        Blog blog = findById(id);
-//        if(blog != null) {
-//            // blog 삭제
-//            String sql = "DELETE FROM blog WHERE id = ?";
-//            jdbcTemplate.update(sql, id);
-//
-//            return id;
-//        } else {
-//            throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
-//        }
-//    }
-//
-//    private Blog findById(Long id) {
-//        // DB 조회
-//        String sql = "SELECT * FROM blog WHERE id = ?";
-//
-//        return jdbcTemplate.query(sql, resultSet -> {
-//            if(resultSet.next()) {
-//                Blog blog = new Blog();
-//                blog.setUsername(resultSet.getString("username"));
-//                blog.setContents(resultSet.getString("contents"));
-//                return blog;
-//            } else {
-//                return null;
-//            }
-//        }, id);
-//    }
+    @PutMapping("/blogs/{id}")
+    public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
+        // 해당 메모가 DB에 존재하는지 확인
+        Blog blog = findById(id);
+        if(blog != null) {
+            // blog 내용 수정
+            String sql = "UPDATE blog SET title = ?,username = ?, contents = ? WHERE id = ?";
+            jdbcTemplate.update(sql, requestDto.getTitle(), requestDto.getUsername(), requestDto.getContents(), id);
+
+            return id;
+        } else {
+            throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
+        }
+    }
+
+    @DeleteMapping("/blogs/{id}")
+    public Long deleteBlog(@PathVariable Long id) {
+        // 해당 메모가 DB에 존재하는지 확인
+        Blog blog = findById(id);
+        if(blog != null) {
+            // blog 삭제
+            String sql = "DELETE FROM blog WHERE id = ?";
+            jdbcTemplate.update(sql, id);
+
+            return id;
+        } else {
+            throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
+        }
+    }
+
+    private Blog findById(Long id) {
+        // DB 조회
+        String sql = "SELECT * FROM blog WHERE id = ?";
+
+        return jdbcTemplate.query(sql, resultSet -> {
+            if(resultSet.next()) {
+                Blog blog = new Blog();
+                blog.setTitle(resultSet.getString("title"));
+                blog.setUsername(resultSet.getString("username"));
+                blog.setContents(resultSet.getString("contents"));
+                blog.setDate(resultSet.getDate("date").toLocalDate());
+                blog.setPassword(resultSet.getLong("password"));
+                return blog;
+            } else {
+                return null;
+            }
+        }, id);
+    }
 }

@@ -290,10 +290,13 @@
           for (let i = 0; i < response.length; i++) {
             let message = response[i];
             let id = message['id'];
+            let title = message['title'];
             let username = message['username'];
             let contents = message['contents'];
+            let password = message['password'];
+            let date = message['date'];
             let modifiedAt = message['modifiedAt'];
-            addHTML(id, username, contents, modifiedAt);
+            addHTML(id, title, username, contents, password, date, modifiedAt);
           }
         }
       })
