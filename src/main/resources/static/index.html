@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memo Service</title>
+  <title>blog Service</title>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
@@ -285,7 +285,7 @@
       // 2. 메모 목록을 불러와서 HTML로 붙입니다.
       $.ajax({
         type: 'GET',
-        url: '/api/memos',
+        url: '/api/blogs',
         success: function (response) {
           for (let i = 0; i < response.length; i++) {
             let message = response[i];
@@ -347,10 +347,10 @@
       // 4. 전달할 data JSON으로 만듭니다.
       let data = {'username': username, 'contents': contents};
 
-      // 5. POST /api/memos 에 data를 전달합니다.
+      // 5. POST /api/blogs 에 data를 전달합니다.
       $.ajax({
         type: "POST",
-        url: "/api/memos",
+        url: "/api/blogs",
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function (response) {
@@ -374,10 +374,10 @@
       // 3. 전달할 data JSON으로 만듭니다.
       let data = {'username': username, 'contents': contents};
 
-      // 4. PUT /api/memos/{id} 에 data를 전달합니다.
+      // 4. PUT /api/blogs/{id} 에 data를 전달합니다.
       $.ajax({
         type: "PUT",
-        url: `/api/memos/${id}`,
+        url: `/api/blogs/${id}`,
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function (response) {
@@ -389,10 +389,10 @@
 
     // 메모를 삭제합니다.
     function deleteOne(id) {
-      // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
+      // 1. DELETE /api/blogs/{id} 에 요청해서 메모를 삭제합니다.
       $.ajax({
         type: "DELETE",
-        url: `/api/memos/${id}`,
+        url: `/api/blogs/${id}`,
         success: function (response) {
           alert('메시지 삭제에 성공하였습니다.');
           window.location.reload();
@@ -411,7 +411,7 @@
 </div>
 <div class="wrap">
   <div class="header">
-    <h2>Memo</h2>
+    <h2>blog</h2>
     <p>
       공유하고 싶은 소식을 입력해주세요.
     </p>
@@ -423,7 +423,7 @@
                   rows="10"></textarea>
         <textarea class="field" placeholder="공유하고 싶은 소식을 입력해주세요" name="contents" id="contents" cols="30"
                   rows="10"></textarea>
-        <textarea class="field2" placeholder="이름" name="password" id="password" cols="30"
+        <textarea class="field2" placeholder="비밀번호" name="password" id="password" cols="30"
                   rows="10"></textarea>
     <!--            <button class="btn btn-danger" onclick="writePost()">작성하기</button>-->
     <img src="images/send.png" alt="" onclick="writePost()">
